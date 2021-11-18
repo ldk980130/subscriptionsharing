@@ -42,4 +42,23 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Post> posts = new ArrayList<>();
 
+    protected User() {
+    }
+
+    public static User create (String loginId, String password, String name, String nickName,
+                               String introduce, String email) {
+        User user = new User();
+        user.loginId = loginId;
+        user.password = password;
+        user.name = name;
+        user.nickName = nickName;
+        user.introduce = introduce;
+        user.email = email;
+
+        user.role = Role.MEMBER;
+        user.status = Status.NORMAL;
+
+        return user;
+    }
+
 }
