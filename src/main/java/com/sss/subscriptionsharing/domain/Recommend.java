@@ -21,4 +21,17 @@ public class Recommend {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    protected Recommend() {
+    }
+
+    public static Recommend create(Post post, User user) {
+        Recommend recommend = new Recommend();
+
+        recommend.post = post;
+        post.getRecommends().add(recommend);
+
+        recommend.user = user;
+        return recommend;
+    }
 }
