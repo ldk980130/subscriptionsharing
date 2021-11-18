@@ -1,5 +1,6 @@
 package com.sss.subscriptionsharing.domain;
 
+import com.sss.subscriptionsharing.domain.user.User;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -16,4 +17,8 @@ public class Recommend {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     private Post post;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 }

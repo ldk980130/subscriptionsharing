@@ -4,8 +4,11 @@ import com.sss.subscriptionsharing.domain.user.User;
 import lombok.Getter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Getter
@@ -38,4 +41,34 @@ public class Post {
 
     @OneToMany(mappedBy = "post")
     private List<Recommend> recommends = new ArrayList<>();
+
+    protected Post() {
+    }
+
+    public static Post create(String title, String content, User user, Category category) {
+        Post post = new Post();
+        post.title = title;
+        post.content = content;
+        post.user = user;
+        post.category = category;
+
+        post.date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+
+        return post;
+    }
+
+    public void edit(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
+    public void addRecommend(Recommend recommend) {
+
+        Optional<Recommend> findUser = recommends.stream()
+                .filter(r -> r.getUser() == recommend.getUser())
+                .findFirst();
+
+        if (findUser.isEmpty()) this.recommends.add(recommend);
+        else recommends.remove(findUser);
+    }
 }
