@@ -61,4 +61,18 @@ public class User {
         return user;
     }
 
+    public void edit(String loginId, String password, String name, String nickName,
+                     String introduce, String email) {
+        this.loginId = loginId;
+        this.password = password;
+        this.name = name;
+        this.nickName = nickName;
+        this.introduce = introduce;
+        this.email = email;
+    }
+
+    public void changeStatus() {
+        this.status = Status.SUSPENSION;
+    }
+
 }
