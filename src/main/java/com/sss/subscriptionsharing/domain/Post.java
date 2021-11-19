@@ -49,8 +49,12 @@ public class Post {
         Post post = new Post();
         post.title = title;
         post.content = content;
+
         post.user = user;
+        user.getPosts().add(post);
+
         post.category = category;
+        category.getPosts().add(post);
 
         post.date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
 
@@ -60,15 +64,5 @@ public class Post {
     public void edit(String title, String content) {
         this.title = title;
         this.content = content;
-    }
-
-    public void addRecommend(Recommend recommend) {
-
-        Optional<Recommend> findUser = recommends.stream()
-                .filter(r -> r.getUser() == recommend.getUser())
-                .findFirst();
-
-        if (findUser.isEmpty()) this.recommends.add(recommend);
-        else recommends.remove(findUser);
     }
 }

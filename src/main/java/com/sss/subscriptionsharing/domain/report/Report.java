@@ -1,6 +1,8 @@
 package com.sss.subscriptionsharing.domain.report;
 
+import com.sss.subscriptionsharing.domain.Comment;
 import com.sss.subscriptionsharing.domain.Post;
+import com.sss.subscriptionsharing.domain.user.User;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -24,5 +26,30 @@ public class Report {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comment_id")
-    private Post comment;
+    private Comment comment;
+
+    public static Report createOfPost(Post post, User user, Reason reason) {
+        Report report = new Report();
+        report.post = post;
+
+        ReportInfo reportInfo = ReportInfo.create(user, reason, report);
+        report.infos.add(reportInfo);
+
+        return report;
+    }
+
+    public static Report createOfComment(Comment comment, User user, Reason reason) {
+        Report report = new Report();
+        report.comment = comment;
+
+        ReportInfo reportInfo = ReportInfo.create(user, reason, report);
+        report.infos.add(reportInfo);
+
+        return report;
+    }
+
+    public void addInfo(User user, Reason reason) {
+        ReportInfo reportInfo = ReportInfo.create(user, reason, this);
+        this.infos.add(reportInfo);
+    }
 }

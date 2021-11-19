@@ -24,4 +24,13 @@ public class ReportInfo {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    public static ReportInfo create(User user, Reason reason, Report report) {
+        ReportInfo reportInfo = new ReportInfo();
+        reportInfo.user = user;
+        reportInfo.reason = reason;
+        reportInfo.report = report;
+
+        return reportInfo;
+    }
 }
