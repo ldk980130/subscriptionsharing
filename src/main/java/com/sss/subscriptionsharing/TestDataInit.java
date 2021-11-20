@@ -15,10 +15,10 @@ public class TestDataInit {
 
     @PostConstruct
     public void init() {
-        User user1 = userService.join("ldk", "1234", "이동규",
-                "dk", "안녕", "ldk980130@gmail.com");
-
-        User user2 = userService.join("abc", "12344", "김철수",
-                "ch", "안녕", "abc1234@gmail.com");
+//        User user1 = userService.join("ldk", "1234", "이동규",
+//                "dk", "안녕", "ldk980130@gmail.com");
+//
+//        User user2 = userService.join("abc", "12344", "김철수",
+//                "ch", "안녕", "abc1234@gmail.com");
     }
 }

@@ -52,4 +52,8 @@ public class UserService {
     public Optional<User> findByLoginId(String loginId) {
         return userRepository.findByLoginId(loginId);
     }
+
+    public void withdrawal(User user) {
+        userRepository.delete(user);
+    }
 }
