@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -53,7 +54,12 @@ public class UserService {
         return userRepository.findByLoginId(loginId);
     }
 
+    @Transactional
     public void withdrawal(User user) {
         userRepository.delete(user);
+    }
+
+    public List<User> findByName(String name) {
+        return userRepository.findByName(name);
     }
 }
