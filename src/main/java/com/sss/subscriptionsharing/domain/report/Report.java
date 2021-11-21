@@ -17,7 +17,7 @@ public class Report {
     @Column(name = "report_id")
     private Long id;
 
-    @OneToMany(mappedBy = "report")
+    @OneToMany(mappedBy = "report", cascade = CascadeType.ALL)
     private List<ReportInfo> infos;
 
     @OneToOne(fetch = FetchType.LAZY)

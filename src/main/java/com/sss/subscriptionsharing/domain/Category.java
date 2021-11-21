@@ -22,7 +22,7 @@ public class Category {
     @JoinColumn(name = "board_id")
     private Board board;
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<Post> posts = new ArrayList<>();
 
     protected Category() {

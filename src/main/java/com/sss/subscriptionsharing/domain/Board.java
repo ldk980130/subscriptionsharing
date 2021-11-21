@@ -18,7 +18,7 @@ public class Board {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     private List<Category> categories = new ArrayList<>();
 
     protected Board() {

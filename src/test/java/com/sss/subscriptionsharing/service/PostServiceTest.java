@@ -97,11 +97,12 @@ public class PostServiceTest {
         Long postId = post.getId();
 
         //when
+        int categoryPosts = category.getPosts().size();
         postService.delete(postId);
         Optional<Post> findPost = postService.findById(postId);
 
         //then
         assertThat(findPost).isEmpty();
-        assertThat(category.getPosts().size()).isEqualTo(0);
+        assertThat(category.getPosts().size()).isEqualTo(categoryPosts - 1);
     }
 }
