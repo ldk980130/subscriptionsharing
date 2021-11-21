@@ -71,8 +71,14 @@ public class User {
         this.email = email;
     }
 
-    public void changeStatus() {
-        this.status = Status.SUSPENSION;
+    public Status changeStatus() {
+        if (this.status == Status.NORMAL) {
+            this.status = Status.SUSPENSION;
+            return Status.SUSPENSION;
+        }
+
+        this.status = Status.NORMAL;
+        return Status.NORMAL;
     }
 
 }

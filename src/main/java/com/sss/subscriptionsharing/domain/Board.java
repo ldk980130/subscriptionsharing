@@ -20,4 +20,13 @@ public class Board {
 
     @OneToMany(mappedBy = "board")
     private List<Category> categories = new ArrayList<>();
+
+    protected Board() {
+    }
+
+    public static Board create(String name) {
+        Board board = new Board();
+        board.name = name;
+        return board;
+    }
 }

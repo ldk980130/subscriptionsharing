@@ -24,4 +24,17 @@ public class Category {
 
     @OneToMany(mappedBy = "category")
     private List<Post> posts = new ArrayList<>();
+
+    protected Category() {
+    }
+
+    public static Category create(String name, Board board) {
+        Category category = new Category();
+        category.name = name;
+
+        category.board = board;
+        board.getCategories().add(category);
+
+        return category;
+    }
 }

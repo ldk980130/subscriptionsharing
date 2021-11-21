@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class UserServiceTest {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Test
     public void join() throws Exception {
