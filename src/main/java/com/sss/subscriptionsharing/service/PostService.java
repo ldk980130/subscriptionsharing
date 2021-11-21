@@ -53,6 +53,13 @@ public class PostService {
         return postRepository.findById(postId);
     }
 
+    @Transactional
+    public void delete(Long postId) {
+        Post post = postRepository.findById(postId).get();
+        validateAuthority(post.getUser());
 
+        post.getCategory().getPosts().remove(post);
+        postRepository.delete(post);
+    }
 
 }

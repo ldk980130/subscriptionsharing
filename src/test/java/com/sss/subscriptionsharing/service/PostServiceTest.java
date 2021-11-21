@@ -85,4 +85,23 @@ public class PostServiceTest {
         assertThat(title).isEqualTo("바뀐 제목");
         assertThat(content).isEqualTo("바뀐 내용");
     }
+
+    @Test
+    public void postDelete() throws Exception {
+        //given
+        Board board = boardRepository.save(Board.create("왓챠"));
+        Category category = categoryRepository.save(Category.create("친목", board));
+        User user = userService.join("ldk", "1234", "이동규",
+                "dk", "안녕", "ldk980130@gmail.com");
+        Post post = postService.register(user.getId(), category.getId(), "제목", "내용");
+        Long postId = post.getId();
+
+        //when
+        postService.delete(postId);
+        Optional<Post> findPost = postService.findById(postId);
+
+        //then
+        assertThat(findPost).isEmpty();
+        assertThat(category.getPosts().size()).isEqualTo(0);
+    }
 }
