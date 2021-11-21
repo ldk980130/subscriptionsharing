@@ -23,9 +23,11 @@ public class PostService {
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
 
+    @Transactional
     public Post register(Long userId, Long categoryId, String title, String content) {
 
-        User user = validateAuthority(userId);
+        User user = userRepository.findById(userId).get();
+        validateAuthority(user);
         Category category = categoryRepository.findById(categoryId).get();
 
         Post post = Post.create(title, content, user, category);
@@ -33,14 +35,24 @@ public class PostService {
         return postRepository.save(post);
     }
 
-    private User validateAuthority(Long userId) {
-        User user = userRepository.findById(userId).get();
-        if (user.getStatus() == Status.SUSPENSION) throw new NoAuthorityException("권한이 없습니다.");
-        return user;
+    private void validateAuthority(User user) {
+        if (user.getStatus() == Status.SUSPENSION) {
+            throw new NoAuthorityException("권한이 없습니다.");
+        }
+    }
+
+    @Transactional
+    public void edit(Long postId, String title, String content) {
+        Post post = postRepository.findById(postId).get();
+        validateAuthority(post.getUser());
+
+        post.edit(title, content);
     }
 
     public Optional<Post> findById(Long postId){
         return postRepository.findById(postId);
     }
+
+
 
 }

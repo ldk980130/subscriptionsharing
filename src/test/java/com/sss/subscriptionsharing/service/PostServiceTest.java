@@ -61,9 +61,28 @@ public class PostServiceTest {
 
         //when
         user.changeStatus();
-        Post post = postService.register(user.getId(), category.getId(), "제목", "내용");
+        postService.register(user.getId(), category.getId(), "제목", "내용");
 
         //then
         fail();
+    }
+
+    @Test
+    public void postEdit() throws Exception {
+        //given
+        Board board = boardRepository.save(Board.create("왓챠"));
+        Category category = categoryRepository.save(Category.create("친목", board));
+        User user = userService.join("ldk", "1234", "이동규",
+                "dk", "안녕", "ldk980130@gmail.com");
+        Post post = postService.register(user.getId(), category.getId(), "제목", "내용");
+
+        //when
+        postService.edit(post.getId(), "바뀐 제목", "바뀐 내용");
+        String title = postService.findById(post.getId()).get().getTitle();
+        String content = postService.findById(post.getId()).get().getContent();
+
+        //then
+        assertThat(title).isEqualTo("바뀐 제목");
+        assertThat(content).isEqualTo("바뀐 내용");
     }
 }
