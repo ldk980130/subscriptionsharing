@@ -38,6 +38,19 @@ public class LoginServiceTest {
     }
 
     @Test
+    public void loginFail() throws Exception {
+        //given
+        User user = userService.join("ldk", "1234", "이동규",
+                "dk", "안녕", "ldk980130@gmail.com");
+
+        //when
+        Optional<User> findUser = loginService.login("ldk", "123");
+
+        //then
+        assertThat(findUser).isEmpty();
+    }
+
+    @Test
     public void findLoginId() throws Exception {
         //given
         User user = userService.join("ldk", "1234", "이동규",
