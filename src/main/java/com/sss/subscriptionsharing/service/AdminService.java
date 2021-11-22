@@ -17,39 +17,19 @@ import java.util.Optional;
 public class AdminService {
 
     private final UserRepository userRepository;
+    private final UserService userService;
 
     @Transactional
     public User joinAdmin(String loginId, String password, String name, String nickName,
                           String introduce, String email) {
-        validateDuplicateId(loginId);
-        validateDuplicateNickName(nickName);
-        validateDuplicateEmail(email);
+        userService.validateDuplicateId(loginId);
+        userService.validateDuplicateNickName(nickName);
+        userService.validateDuplicateEmail(email);
 
         User admin = User.createAdmin(loginId, password, name, nickName, introduce, email);
         userRepository.save(admin);
 
         return admin;
-    }
-
-    public void validateDuplicateId(String loginId) {
-        Optional<User> findUser = userRepository.findByLoginId(loginId);
-        if (findUser.isPresent()) {
-            throw new IllegalStateException("이미 존재하는 아이디입니다.");
-        }
-    }
-
-    public void validateDuplicateNickName(String nickName) {
-        Optional<User> findUser = userRepository.findByNickName(nickName);
-        if (findUser.isPresent()) {
-            throw new IllegalStateException("이미 존재하는 닉네임입니다.");
-        }
-    }
-
-    public void validateDuplicateEmail(String email) {
-        Optional<User> findUser = userRepository.findByEmail(email);
-        if (findUser.isPresent()) {
-            throw new IllegalStateException("이미 존재하는 이메일입니다.");
-        }
     }
 
     @Transactional
