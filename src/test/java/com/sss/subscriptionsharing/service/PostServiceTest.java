@@ -16,6 +16,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
@@ -84,6 +85,26 @@ public class PostServiceTest {
         //then
         assertThat(title).isEqualTo("바뀐 제목");
         assertThat(content).isEqualTo("바뀐 내용");
+    }
+
+    @Test
+    public void paging() throws Exception {
+        //given
+        Board board = boardRepository.save(Board.create("왓챠"));
+        Category category = categoryRepository.save(Category.create("친목", board));
+        User user = userService.join("ldk", "1234", "이동규",
+                "dk", "안녕", "ldk980130@gmail.com");
+        Post post1 = postService.register(user.getId(), category.getId(), "제목", "내용");
+        Post post2 = postService.register(user.getId(), category.getId(), "제목", "내용");
+        Post post3 = postService.register(user.getId(), category.getId(), "제목", "내용");
+        Post post4 = postService.register(user.getId(), category.getId(), "제목", "내용");
+
+        //when
+        int size = postService.findAllByCategory(category.getId()).size();
+        List<Post> pages = postService.findPageByCategory(category.getId(), 0, size - 1);
+
+        //then
+        assertThat(pages.size()).isEqualTo(size - 1);
     }
 
     @Test

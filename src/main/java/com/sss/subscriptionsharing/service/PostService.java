@@ -9,9 +9,12 @@ import com.sss.subscriptionsharing.repository.CategoryRepository;
 import com.sss.subscriptionsharing.repository.PostRepository;
 import com.sss.subscriptionsharing.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -52,6 +55,19 @@ public class PostService {
     public Optional<Post> findById(Long postId){
         return postRepository.findById(postId);
     }
+
+    public List<Post> findPageByCategory(Long categoryId, int start, int max) {
+        Category category = categoryRepository.findById(categoryId).get();
+        PageRequest pageRequest = PageRequest.of(start, max, Sort.Direction.ASC, "date");
+        return postRepository.findAllByCategory(category, pageRequest);
+    }
+
+    public List<Post> findAllByCategory(Long categoryId) {
+        Category category = categoryRepository.findById(categoryId).get();
+
+        return postRepository.findAllByCategory(category);
+    }
+
 
     @Transactional
     public void delete(Long postId) {
