@@ -45,7 +45,7 @@ public class User {
     protected User() {
     }
 
-    public static User create (String loginId, String password, String name, String nickName,
+    public static User create(String loginId, String password, String name, String nickName,
                                String introduce, String email) {
         User user = new User();
         user.loginId = loginId;
@@ -56,6 +56,22 @@ public class User {
         user.email = email;
 
         user.role = Role.MEMBER;
+        user.status = Status.NORMAL;
+
+        return user;
+    }
+
+    public static User createAdmin(String loginId, String password, String name, String nickName,
+                              String introduce, String email) {
+        User user = new User();
+        user.loginId = loginId;
+        user.password = password;
+        user.name = name;
+        user.nickName = nickName;
+        user.introduce = introduce;
+        user.email = email;
+
+        user.role = Role.ADMIN;
         user.status = Status.NORMAL;
 
         return user;
