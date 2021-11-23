@@ -29,17 +29,6 @@ public class UserService {
         return user;
     }
 
-    @Transactional
-    public void editInfo(Long userId, String loginId, String password, String name,
-                         String nickName, String introduce, String email){
-        validateDuplicateId(loginId);
-        validateDuplicateNickName(nickName);
-        validateDuplicateEmail(email);
-
-        User user = userRepository.findById(userId).get();
-        user.edit(loginId, password, name, nickName, introduce, email);
-    }
-
     public void validateDuplicateId(String loginId) {
         Optional<User> findUser = userRepository.findByLoginId(loginId);
         if (findUser.isPresent()) {
@@ -59,6 +48,17 @@ public class UserService {
         if (findUser.isPresent()) {
             throw new IllegalStateException("이미 존재하는 이메일입니다.");
         }
+    }
+
+    @Transactional
+    public void editInfo(Long userId, String loginId, String password, String name,
+                         String nickName, String introduce, String email){
+        validateDuplicateId(loginId);
+        validateDuplicateNickName(nickName);
+        validateDuplicateEmail(email);
+
+        User user = userRepository.findById(userId).get();
+        user.edit(loginId, password, name, nickName, introduce, email);
     }
 
     public Optional<User> findByLoginId(String loginId) {
