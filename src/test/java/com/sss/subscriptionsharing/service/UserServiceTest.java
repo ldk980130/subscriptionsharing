@@ -32,6 +32,21 @@ public class UserServiceTest {
         assertThat(user).isEqualTo(findUser);
     }
 
+    @Test
+    public void editInfo() throws Exception {
+        //given
+        User user = userService.join("ldk", "1234", "이동규",
+                "dk", "안녕", "ldk980130@gmail.com");
+
+        //when
+        userService.editInfo(user.getId(), "ldk12", "123", "이동규",
+                "dd", "", "ldk980130@naver.com");
+
+        //then
+        Optional<User> findUser = userService.findByLoginId("ldk12");
+        assertThat(findUser.get().getNickName()).isEqualTo("dd");
+    }
+
     @Test(expected = IllegalStateException.class)
     public void validateLoginId() throws Exception {
         //given

@@ -29,6 +29,17 @@ public class UserService {
         return user;
     }
 
+    @Transactional
+    public void editInfo(Long userId, String loginId, String password, String name,
+                         String nickName, String introduce, String email){
+        validateDuplicateId(loginId);
+        validateDuplicateNickName(nickName);
+        validateDuplicateEmail(email);
+
+        User user = userRepository.findById(userId).get();
+        user.edit(loginId, password, name, nickName, introduce, email);
+    }
+
     public void validateDuplicateId(String loginId) {
         Optional<User> findUser = userRepository.findByLoginId(loginId);
         if (findUser.isPresent()) {
