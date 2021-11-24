@@ -2,6 +2,7 @@ package com.sss.subscriptionsharing.service;
 
 import com.sss.subscriptionsharing.domain.Board;
 import com.sss.subscriptionsharing.domain.Category;
+import com.sss.subscriptionsharing.domain.Comment;
 import com.sss.subscriptionsharing.domain.Post;
 import com.sss.subscriptionsharing.domain.user.User;
 import com.sss.subscriptionsharing.exception.NoAuthorityException;
@@ -35,6 +36,8 @@ public class PostServiceTest {
     private BoardRepository boardRepository;
     @Autowired
     private UserService userService;
+    @Autowired
+    private CommentService commentService;
 
     @Test
     public void postRegister() throws Exception {
@@ -125,5 +128,30 @@ public class PostServiceTest {
         //then
         assertThat(findPost).isEmpty();
         assertThat(category.getPosts().size()).isEqualTo(categoryPosts - 1);
+    }
+
+    @Test
+    public void postDeleteWhenHaveComment() throws Exception {
+        //given
+        Board board = boardRepository.save(Board.create("왓챠"));
+        Category category = categoryRepository.save(Category.create("친목", board));
+        User user = userService.join("ldk", "1234", "이동규",
+                "dk", "안녕", "ldk980130@gmail.com");
+        Post post = postService.register(user.getId(), category.getId(), "제목", "내용");
+        Long postId = post.getId();
+        Comment comment = commentService.register(user.getId(), postId, "댓글");
+        Long commentId = comment.getId();
+
+        //when
+        int categoryPosts = category.getPosts().size();
+        postService.delete(postId);
+        Optional<Post> findPost = postService.findById(postId);
+
+        //then
+        assertThat(findPost).isEmpty();
+        assertThat(category.getPosts().size()).isEqualTo(categoryPosts - 1);
+
+        Optional<Comment> findComment = commentService.findById(commentId);
+        assertThat(findComment).isEmpty();
     }
 }
