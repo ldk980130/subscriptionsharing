@@ -2,7 +2,9 @@ package com.sss.subscriptionsharing.service;
 
 import com.sss.subscriptionsharing.domain.Comment;
 import com.sss.subscriptionsharing.domain.Post;
+import com.sss.subscriptionsharing.domain.user.Status;
 import com.sss.subscriptionsharing.domain.user.User;
+import com.sss.subscriptionsharing.exception.NoAuthorityException;
 import com.sss.subscriptionsharing.repository.CommentRepository;
 import com.sss.subscriptionsharing.repository.PostRepository;
 import com.sss.subscriptionsharing.repository.UserRepository;
@@ -31,7 +33,30 @@ public class CommentService {
         return commentRepository.save(comment);
     }
 
+    private void validateAuthority(User user) {
+        if (user.getStatus() == Status.SUSPENSION) {
+            throw new NoAuthorityException("권한이 없습니다.");
+        }
+    }
+
+    @Transactional
+    public void edit(Long commentId, String content) {
+        Comment comment = commentRepository.findById(commentId).get();
+        validateAuthority(comment.getUser());
+
+        comment.edit(content);
+    }
+
     public Optional<Comment> findById(Long commentId) {
         return commentRepository.findById(commentId);
+    }
+
+    @Transactional
+    public void delete(Long commentId) {
+        Comment comment = commentRepository.findById(commentId).get();
+        validateAuthority(comment.getUser());
+
+        comment.getPost().getComments().remove(comment);
+        commentRepository.delete(comment);
     }
 }

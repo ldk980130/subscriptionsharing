@@ -15,6 +15,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.Assert.*;
 
@@ -49,5 +51,46 @@ public class CommentServiceTest {
         //then
         Comment findComment = commentService.findById(comment.getId()).get();
         assertThat(findComment.getContent()).isEqualTo("댓글1");
+    }
+
+    @Test
+    public void commentEdit() throws Exception {
+        //given
+        Board board = boardRepository.save(Board.create("왓챠"));
+        Category category = categoryRepository.save(Category.create("친목", board));
+        User user = userService.join("ldk", "1234", "이동규",
+                "dk", "안녕", "ldk980130@gmail.com");
+        Post post = postService.register(user.getId(), category.getId(), "제목", "내용");
+        Comment comment = commentService.register(user.getId(), post.getId(), "댓글1");
+
+        //when
+        commentService.edit(comment.getId(), "수정 댓글");
+        Comment findComment = commentService.findById(comment.getId()).get();
+        String content = findComment.getContent();
+
+        //then
+        assertThat(content).isEqualTo("수정 댓글");
+
+    }
+
+    @Test
+    public void commentDelete() throws Exception {
+        //given
+        Board board = boardRepository.save(Board.create("왓챠"));
+        Category category = categoryRepository.save(Category.create("친목", board));
+        User user = userService.join("ldk", "1234", "이동규",
+                "dk", "안녕", "ldk980130@gmail.com");
+        Post post = postService.register(user.getId(), category.getId(), "제목", "내용");
+        Comment comment = commentService.register(user.getId(), post.getId(), "댓글1");
+        Long commentId = comment.getId();
+
+        //when
+        int postComments = post.getComments().size();
+        commentService.delete(commentId);
+        Optional<Comment> findComment = commentService.findById(commentId);
+
+        //then
+        assertThat(findComment).isEmpty();
+        assertThat(post.getComments().size()).isEqualTo(postComments - 1);
     }
 }
