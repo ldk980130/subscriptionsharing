@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.Assert.*;
 
@@ -69,5 +71,21 @@ public class AdminServiceTest {
 
         //then
         fail();
+    }
+
+    @Test
+    public void userEliminate() throws Exception {
+        //given
+        User user = userService.join("ldk", "1234", "이동규",
+                "dk", "안녕", "ldk980130@gmail.com");
+        User admin = adminService.joinAdmin("admin", "2345", "관리자",
+                "ad", "", "1234@gmail.com");
+
+        //when
+        adminService.userEliminate(admin.getId(), user.getId());
+
+        //then
+        Optional<User> findUser = userService.findByLoginId("ldk");
+        assertThat(findUser).isEmpty();
     }
 }

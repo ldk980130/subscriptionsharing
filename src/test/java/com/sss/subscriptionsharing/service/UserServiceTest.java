@@ -96,7 +96,7 @@ public class UserServiceTest {
                 "dk", "안녕", "ldk980130@gmail.com");
 
         //when
-        userService.withdrawal(user);
+        userService.withdrawal(user.getId());
 
         //then
         Optional<User> findUser = userService.findByLoginId("ldk");

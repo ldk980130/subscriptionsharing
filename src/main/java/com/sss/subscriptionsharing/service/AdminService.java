@@ -46,6 +46,12 @@ public class AdminService {
         if (user.get().getStatus() == Status.SUSPENSION) user.get().changeStatus();
     }
 
+    @Transactional
+    public void userEliminate(Long adminId, Long userId) {
+        Optional<User> user = validate(adminId, userId);
+        userService.withdrawal(user.get().getId());
+    }
+
     private Optional<User> validate(Long adminId, Long userId) {
         validateAdmin(userRepository.findById(adminId));
 
@@ -59,4 +65,5 @@ public class AdminService {
             throw new NoAuthorityException("관리자 권한이 없습니다.");
         }
     }
+
 }

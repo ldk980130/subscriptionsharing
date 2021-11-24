@@ -66,7 +66,8 @@ public class UserService {
     }
 
     @Transactional
-    public void withdrawal(User user) {
+    public void withdrawal(Long userId) {
+        User user = userRepository.findById(userId).get();
         userRepository.delete(user);
     }
 
