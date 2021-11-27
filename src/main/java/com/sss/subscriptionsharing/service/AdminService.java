@@ -33,21 +33,21 @@ public class AdminService {
     }
 
     @Transactional
-    public void userSuspension(Long adminId, Long userId) {
+    public void suspenseUser(Long adminId, Long userId) {
         Optional<User> user = validate(adminId, userId);
 
         if (user.get().getStatus() == Status.NORMAL) user.get().changeStatus();
     }
 
     @Transactional
-    public void userSuspensionCancel(Long adminId, Long userId) {
+    public void suspenseUserCancel(Long adminId, Long userId) {
         Optional<User> user = validate(adminId, userId);
 
         if (user.get().getStatus() == Status.SUSPENSION) user.get().changeStatus();
     }
 
     @Transactional
-    public void userEliminate(Long adminId, Long userId) {
+    public void eliminateUser(Long adminId, Long userId) {
         Optional<User> user = validate(adminId, userId);
         userService.withdrawal(user.get().getId());
     }

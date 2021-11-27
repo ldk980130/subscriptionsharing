@@ -37,11 +37,11 @@ public class AdminServiceTest {
                 "ad", "", "1234@gmail.com");
 
         //when
-        adminService.userSuspension(admin.getId(), user.getId());
+        adminService.suspenseUser(admin.getId(), user.getId());
 
         //then
         assertThat(user.getStatus()).isEqualTo(Status.SUSPENSION);
-        adminService.userSuspensionCancel(admin.getId(), user.getId());
+        adminService.suspenseUserCancel(admin.getId(), user.getId());
         assertThat(user.getStatus()).isEqualTo(Status.NORMAL);
     }
 
@@ -54,7 +54,7 @@ public class AdminServiceTest {
                 "ad", "", "1234@gmail.com");
 
         //when
-        adminService.userSuspension(user.getId(), admin.getId());
+        adminService.suspenseUser(user.getId(), admin.getId());
 
         //then
         fail();
@@ -67,7 +67,7 @@ public class AdminServiceTest {
                 "ad", "", "1234@gmail.com");
 
         //when
-        adminService.userSuspension(admin.getId(), 100000L);
+        adminService.suspenseUser(admin.getId(), 100000L);
 
         //then
         fail();
@@ -82,7 +82,7 @@ public class AdminServiceTest {
                 "ad", "", "1234@gmail.com");
 
         //when
-        adminService.userEliminate(admin.getId(), user.getId());
+        adminService.eliminateUser(admin.getId(), user.getId());
 
         //then
         Optional<User> findUser = userService.findByLoginId("ldk");
