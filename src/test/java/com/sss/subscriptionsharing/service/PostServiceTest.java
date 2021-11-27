@@ -103,7 +103,7 @@ public class PostServiceTest {
         Post post4 = postService.register(user.getId(), category.getId(), "제목", "내용");
 
         //when
-        int size = postService.findAllByCategory(category.getId()).size();
+        int size = category.getPosts().size();
         List<Post> pages = postService.findPageByCategory(category.getId(), 0, size - 1);
 
         //then
