@@ -1,6 +1,8 @@
 package com.sss.subscriptionsharing.service;
 
+import com.sss.subscriptionsharing.domain.user.Status;
 import com.sss.subscriptionsharing.domain.user.User;
+import com.sss.subscriptionsharing.exception.NoAuthorityException;
 import com.sss.subscriptionsharing.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -73,5 +75,11 @@ public class UserService {
 
     public List<User> findByName(String name) {
         return userRepository.findByName(name);
+    }
+
+    public void validateAuthority(User user) {
+        if (user.getStatus() == Status.SUSPENSION) {
+            throw new NoAuthorityException("권한이 없습니다.");
+        }
     }
 }

@@ -22,27 +22,24 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
     private final PostRepository postRepository;
+    private final UserService userService;
 
     @Transactional
     public Comment register(Long userId, Long postId, String content) {
         User user = userRepository.findById(userId).get();
         Post post = postRepository.findById(postId).get();
 
+        userService.validateAuthority(user);
+
         Comment comment = Comment.create(content, post, user);
 
         return commentRepository.save(comment);
     }
 
-    private void validateAuthority(User user) {
-        if (user.getStatus() == Status.SUSPENSION) {
-            throw new NoAuthorityException("권한이 없습니다.");
-        }
-    }
-
     @Transactional
     public void edit(Long commentId, String content) {
         Comment comment = commentRepository.findById(commentId).get();
-        validateAuthority(comment.getUser());
+        userService.validateAuthority(comment.getUser());
 
         comment.edit(content);
     }
@@ -54,7 +51,7 @@ public class CommentService {
     @Transactional
     public void delete(Long commentId) {
         Comment comment = commentRepository.findById(commentId).get();
-        validateAuthority(comment.getUser());
+        userService.validateAuthority(comment.getUser());
 
         comment.getPost().getComments().remove(comment);
         commentRepository.delete(comment);
