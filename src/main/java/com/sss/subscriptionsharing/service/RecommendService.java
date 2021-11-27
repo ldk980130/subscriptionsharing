@@ -24,36 +24,31 @@ public class RecommendService {
 	private final RecommendRepository recommendRepository;
 	private final UserRepository userRepository;
 	private final PostRepository postRepository;
+	private final UserService userService;
 
 	@Transactional
-	public Recommend recommend(Long userId, Long postId) {
+	public Optional<Recommend> recommend(Long userId, Long postId) {
 		User user = userRepository.findById(userId).get();
-		validateAuthority(user);
+		userService.validateAuthority(user);
 
 		Post post = postRepository.findById(postId).get();
-
-		Recommend recommend = Recommend.create(post, user);
-
-		return recommendRepository.save(recommend);
-	}
-
-	@Transactional
-	public void cancel(Long userId, Long postId) {
-		User user = userRepository.findById(userId).get();
-		Post post = postRepository.findById(postId).get();
-
-		validateAuthority(user);
 
 		Optional<Recommend> findRecommend = recommendRepository.findByUserAndPost(user, post);
 
 		if (findRecommend.isPresent()) {
-			recommendRepository.delete(findRecommend.get());
+			cancel(findRecommend.get());
+			return Optional.empty();
 		}
+
+		Recommend recommend = Recommend.create(post, user);
+
+		return Optional.of(recommendRepository.save(recommend));
 	}
 
-	private void validateAuthority(User user) {
-		if (user.getStatus() == Status.SUSPENSION) {
-			throw new NoAuthorityException("권한이 없습니다.");
-		}
+	@Transactional
+	public void cancel(Recommend recommend) {
+
+		recommend.getPost().getRecommends().remove(recommend);
+		recommendRepository.delete(recommend);
 	}
 }
