@@ -39,14 +39,19 @@ public class ReportService {
 		Report report;
 
 		if (findReport.isPresent()) {
-
-			report = findReport.get();
-			report.addInfo(user, reason);
+			report = addReportInfo(reason, user, findReport);
 			return report;
 		}
 
 		report = Report.createOfPost(post, user, reason);
 		return reportRepository.save(report);
+	}
+
+	private Report addReportInfo(Reason reason, User user, Optional<Report> findReport) {
+		Report report = findReport.get();
+		validateDuplicateReport(user, report);
+		report.addInfo(user, reason);
+		return report;
 	}
 
 	@Transactional
@@ -59,10 +64,7 @@ public class ReportService {
 		Report report;
 
 		if (findReport.isPresent()) {
-
-			report = findReport.get();
-			validateDuplicateReport(user, report);
-			report.addInfo(user, reason);
+			report = addReportInfo(reason, user, findReport);
 			return report;
 		}
 
