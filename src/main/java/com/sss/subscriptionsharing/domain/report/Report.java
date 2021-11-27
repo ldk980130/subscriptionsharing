@@ -6,6 +6,8 @@ import com.sss.subscriptionsharing.domain.user.User;
 import lombok.Getter;
 
 import javax.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,7 +20,7 @@ public class Report {
     private Long id;
 
     @OneToMany(mappedBy = "report", cascade = CascadeType.ALL)
-    private List<ReportInfo> infos;
+    private List<ReportInfo> infos = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
