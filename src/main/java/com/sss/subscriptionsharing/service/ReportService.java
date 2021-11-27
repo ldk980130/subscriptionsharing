@@ -83,6 +83,14 @@ public class ReportService {
 		}
 	}
 
+	public List<Report> findAllOfPost() {
+		return reportRepository.findAllByPostIsNotNull();
+	}
+
+	public List<Report> findAllOfComment() {
+		return reportRepository.findAllByCommentIsNotNull();
+	}
+
 	public Optional<Report> findByPost(Long postId) {
 		Post post = postRepository.findById(postId).get();
 		return reportRepository.findByPost(post);

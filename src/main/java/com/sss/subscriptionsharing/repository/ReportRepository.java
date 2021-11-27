@@ -1,5 +1,6 @@
 package com.sss.subscriptionsharing.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.sss.subscriptionsharing.domain.Comment;
@@ -13,4 +14,6 @@ public interface ReportRepository extends JpaRepository<Report, Long> {
 
 	Optional<Report> findByPost(Post post);
 	Optional<Report> findByComment(Comment comment);
+	List<Report> findAllByPostIsNotNull();
+	List<Report> findAllByCommentIsNotNull();
 }
