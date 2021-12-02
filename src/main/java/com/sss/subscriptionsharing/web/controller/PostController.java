@@ -15,10 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
-import com.sss.subscriptionsharing.domain.Category;
 import com.sss.subscriptionsharing.domain.Post;
 import com.sss.subscriptionsharing.domain.user.User;
-import com.sss.subscriptionsharing.repository.CategoryRepository;
 import com.sss.subscriptionsharing.service.PostService;
 import com.sss.subscriptionsharing.service.UserService;
 import com.sss.subscriptionsharing.web.dto.PostDto;
@@ -59,5 +57,13 @@ public class PostController {
 			postForm.get("content"));
 
 		return ResponseEntity.ok().build();
+	}
+
+	@GetMapping("/detail/{postId}")
+	public PostDto postDetail(@PathVariable Long postId) {
+
+		Post post = postService.findById(postId).get();
+
+		return ResponseEntity.ok(post.toDto()).getBody();
 	}
 }

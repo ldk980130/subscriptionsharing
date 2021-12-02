@@ -1,6 +1,8 @@
 package com.sss.subscriptionsharing.domain;
 
 import com.sss.subscriptionsharing.domain.user.User;
+import com.sss.subscriptionsharing.web.dto.CommentDto;
+
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -47,5 +49,13 @@ public class Comment {
 
     public void edit(String content) {
         this.content = content;
+    }
+
+    public CommentDto toDto() {
+        return CommentDto.builder()
+            .id(this.id)
+            .nickName(this.getUser().getNickName())
+            .content(this.content)
+            .build();
     }
 }

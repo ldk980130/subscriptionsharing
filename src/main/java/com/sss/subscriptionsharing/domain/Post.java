@@ -75,6 +75,7 @@ public class Post {
             .nickName(this.user.getNickName())
             .date(this.date)
             .content(this.content)
+            .comments(this.comments)
             .build();
     }
 }
