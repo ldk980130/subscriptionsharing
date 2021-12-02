@@ -1,5 +1,7 @@
 package com.sss.subscriptionsharing.web.controller;
 
+import static com.sss.subscriptionsharing.web.SessionConst.*;
+
 import java.util.Map;
 import java.util.Optional;
 
@@ -22,7 +24,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class LoginController {
 
-	static final String LOGIN_USER = "loginUser";
 	private final LoginService loginService;
 
 	@PostMapping("/login")
