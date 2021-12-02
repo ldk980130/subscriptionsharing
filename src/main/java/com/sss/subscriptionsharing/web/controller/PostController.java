@@ -59,6 +59,14 @@ public class PostController {
 		return ResponseEntity.ok().build();
 	}
 
+	@PostMapping("/edit/post/{postId}")
+	public ResponseEntity editPost(@PathVariable Long postId, @RequestBody Map<String, String> postForm) {
+
+		postService.edit(postId, postForm.get("title"), postForm.get("content"));
+
+		return ResponseEntity.ok().build();
+	}
+
 	@GetMapping("/detail/{postId}")
 	public PostDto postDetail(@PathVariable Long postId) {
 
