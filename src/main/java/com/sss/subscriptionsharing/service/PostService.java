@@ -57,6 +57,11 @@ public class PostService {
         return postRepository.findAllByCategory(category, pageRequest);
     }
 
+    public List<Post> findAllByCategory(Long categoryId) {
+        Optional<Category> category = categoryRepository.findById(categoryId);
+        return postRepository.findAllByCategory(category.get());
+    }
+
     @Transactional
     public void delete(Long postId) {
         Post post = postRepository.findById(postId).get();

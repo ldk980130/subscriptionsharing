@@ -1,6 +1,8 @@
 package com.sss.subscriptionsharing.domain;
 
 import com.sss.subscriptionsharing.domain.user.User;
+import com.sss.subscriptionsharing.web.dto.PostDto;
+
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -64,5 +66,15 @@ public class Post {
     public void edit(String title, String content) {
         this.title = title;
         this.content = content;
+    }
+
+    public PostDto toDto() {
+        return PostDto.builder()
+            .postId(this.id)
+            .title(this.title)
+            .nickName(this.user.getNickName())
+            .date(this.date)
+            .content(this.content)
+            .build();
     }
 }

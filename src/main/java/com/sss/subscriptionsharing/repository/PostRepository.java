@@ -12,4 +12,5 @@ import java.util.List;
 public interface PostRepository extends JpaRepository<Post, Long> {
 
     List<Post> findAllByCategory(Category category, Pageable pageable);
+    List<Post> findAllByCategory(Category category);
 }
