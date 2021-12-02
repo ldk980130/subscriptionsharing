@@ -45,4 +45,15 @@ public class LoginController {
 
 		return ResponseEntity.ok().build();
 	}
+
+	@PostMapping("/logout")
+	public ResponseEntity logout(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+
+		if (session != null) {
+			session.invalidate();
+		}
+
+		return ResponseEntity.ok().build();
+	}
 }
