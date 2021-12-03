@@ -1,15 +1,11 @@
 package com.sss.subscriptionsharing.web.dto;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.sss.subscriptionsharing.domain.Comment;
-
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter
+@Getter
+@Setter
 public class PostDto {
 
 	private Long postId;
@@ -18,21 +14,14 @@ public class PostDto {
 	private String date;
 	private String content;
 
-	private List<CommentDto> comments = new ArrayList<>();
-
 	public PostDto() {}
 
 	@Builder
-	public PostDto(Long postId, String title, String nickName, String date, String content, List<Comment> comments) {
+	public PostDto(Long postId, String title, String nickName, String date, String content) {
 		this.postId = postId;
 		this.title = title;
 		this.nickName = nickName;
 		this.date = date;
 		this.content = content;
-
-		for (Comment comment : comments) {
-			this.comments.add(comment.toDto());
-		}
-
 	}
 }

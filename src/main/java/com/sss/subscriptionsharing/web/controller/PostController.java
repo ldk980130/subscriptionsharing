@@ -5,7 +5,6 @@ import static com.sss.subscriptionsharing.web.SessionConst.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -21,6 +20,7 @@ import com.sss.subscriptionsharing.domain.user.User;
 import com.sss.subscriptionsharing.exception.NoAuthorityException;
 import com.sss.subscriptionsharing.service.PostService;
 import com.sss.subscriptionsharing.web.dto.PostDto;
+import com.sss.subscriptionsharing.web.dto.PostWithCommentDto;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -95,10 +95,10 @@ public class PostController {
 	}
 
 	@GetMapping("/detail/{postId}")
-	public PostDto postDetail(@PathVariable Long postId) {
+	public PostWithCommentDto postDetail(@PathVariable Long postId) {
 
 		Post post = postService.findById(postId).get();
 
-		return ResponseEntity.ok(post.toDto()).getBody();
+		return ResponseEntity.ok(post.toWithCommentDto()).getBody();
 	}
 }

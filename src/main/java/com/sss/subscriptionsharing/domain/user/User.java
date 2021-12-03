@@ -1,6 +1,8 @@
 package com.sss.subscriptionsharing.domain.user;
 
 import com.sss.subscriptionsharing.domain.Post;
+import com.sss.subscriptionsharing.web.dto.MyPage;
+
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -95,6 +97,15 @@ public class User {
 
         this.status = Status.NORMAL;
         return Status.NORMAL;
+    }
+
+    public MyPage toMyPage() {
+        return MyPage.builder()
+            .name(this.name)
+            .nickName(this.nickName)
+            .introduce(this.introduce)
+            .posts(this.posts)
+            .build();
     }
 
 }

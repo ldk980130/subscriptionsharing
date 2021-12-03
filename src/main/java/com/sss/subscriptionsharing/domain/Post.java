@@ -2,6 +2,7 @@ package com.sss.subscriptionsharing.domain;
 
 import com.sss.subscriptionsharing.domain.user.User;
 import com.sss.subscriptionsharing.web.dto.PostDto;
+import com.sss.subscriptionsharing.web.dto.PostWithCommentDto;
 
 import lombok.Getter;
 
@@ -10,7 +11,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Entity
 @Getter
@@ -70,6 +70,16 @@ public class Post {
 
     public PostDto toDto() {
         return PostDto.builder()
+            .postId(this.id)
+            .title(this.title)
+            .nickName(this.user.getNickName())
+            .date(this.date)
+            .content(this.content)
+            .build();
+    }
+
+    public PostWithCommentDto toWithCommentDto() {
+        return PostWithCommentDto.builder()
             .postId(this.id)
             .title(this.title)
             .nickName(this.user.getNickName())
