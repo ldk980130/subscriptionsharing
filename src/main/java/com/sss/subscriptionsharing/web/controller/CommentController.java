@@ -62,4 +62,14 @@ public class CommentController {
 	public ResponseEntity noAuthority() {
 		return ResponseEntity.badRequest().build();
 	}
+
+	@PostMapping("/delete/comment/{commentId}")
+	public ResponseEntity deletePost(@PathVariable Long commentId,
+		@SessionAttribute(name = LOGIN_USER, required = false) User loginUser) {
+
+		validateAuthority(commentId, loginUser);
+		commentService.delete(commentId);
+
+		return ResponseEntity.ok().build();
+	}
 }
