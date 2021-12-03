@@ -20,7 +20,6 @@ import com.sss.subscriptionsharing.domain.Post;
 import com.sss.subscriptionsharing.domain.user.User;
 import com.sss.subscriptionsharing.exception.NoAuthorityException;
 import com.sss.subscriptionsharing.service.PostService;
-import com.sss.subscriptionsharing.service.UserService;
 import com.sss.subscriptionsharing.web.dto.PostDto;
 
 import lombok.RequiredArgsConstructor;
@@ -32,7 +31,6 @@ import lombok.extern.slf4j.Slf4j;
 public class PostController {
 
 	private final PostService postService;
-	private final UserService userService;
 
 	@GetMapping("/{categoryId}")
 	public List<PostDto> categoryPosts(@PathVariable Long categoryId) {
