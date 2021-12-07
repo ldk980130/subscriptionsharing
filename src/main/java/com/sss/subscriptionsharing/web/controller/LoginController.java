@@ -29,6 +29,10 @@ public class LoginController {
 	@PostMapping("/login")
 	public ResponseEntity login(@RequestBody Map<String, String> loginForm, HttpServletRequest request) {
 
+		log.info("로그인 컨트롤러 호출");
+
+		log.info("데이터={}, {}", loginForm.get("loginId"), loginForm.get("password"));
+
 		Optional<User> loginUser = loginService.login(loginForm.get("loginId"), loginForm.get("password"));
 
 		if (loginUser.isEmpty()) {

@@ -32,10 +32,12 @@ public class PostController {
 
 	private final PostService postService;
 
-	@GetMapping("/{categoryId}")
-	public List<PostDto> categoryPosts(@PathVariable Long categoryId) {
+	@GetMapping("/home")
+	public List<PostDto> home() {
 
-		List<Post> posts = postService.findAllByCategory(categoryId);
+		log.info("모든 게시글 전달");
+
+		List<Post> posts = postService.findAll();
 		List<PostDto> postDtos = new ArrayList<>();
 
 		for (Post post : posts) {
@@ -44,6 +46,12 @@ public class PostController {
 
 		return postDtos;
 	}
+
+	// @GetMapping("/home")
+	// public String test() {
+	// 	log.info("테스트 호출");
+	// 	return "hello SSS!";
+	// }
 
 	@PostMapping("/create/post")
 	public ResponseEntity createPost(@RequestBody Map<String, String> postForm,

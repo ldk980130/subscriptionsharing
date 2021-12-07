@@ -2,6 +2,7 @@ package com.sss.subscriptionsharing;
 
 import java.util.List;
 
+import com.sss.subscriptionsharing.domain.Board;
 import com.sss.subscriptionsharing.domain.Category;
 import com.sss.subscriptionsharing.repository.BoardRepository;
 import com.sss.subscriptionsharing.repository.CategoryRepository;

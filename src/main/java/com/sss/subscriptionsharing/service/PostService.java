@@ -51,6 +51,10 @@ public class PostService {
         return postRepository.findById(postId);
     }
 
+    public List<Post> findAll() {
+        return postRepository.findAll();
+    }
+
     public List<Post> findPageByCategory(Long categoryId, int start, int max) {
         Category category = categoryRepository.findById(categoryId).get();
         PageRequest pageRequest = PageRequest.of(start, max, Sort.Direction.ASC, "date");
