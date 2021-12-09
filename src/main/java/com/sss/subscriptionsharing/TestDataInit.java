@@ -6,6 +6,9 @@ import com.sss.subscriptionsharing.domain.Board;
 import com.sss.subscriptionsharing.domain.Category;
 import com.sss.subscriptionsharing.repository.BoardRepository;
 import com.sss.subscriptionsharing.repository.CategoryRepository;
+import com.sss.subscriptionsharing.service.PostService;
+import com.sss.subscriptionsharing.service.UserService;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,6 +23,7 @@ public class TestDataInit {
 
     private final BoardRepository boardRepository;
     private final CategoryRepository categoryRepository;
+    private final UserService userService;
 
     @PostConstruct
 	public void dataInItCheck() {
@@ -30,32 +34,35 @@ public class TestDataInit {
 		}
 	}
 
-    // @PostConstruct
-    // public void categoryInit() {
-	//
-    //     Board watcha = Board.create("왓챠");
-    //     boardRepository.save(watcha);
-	//
-    //     categoryRepository.save(Category.create("자유 게시판", watcha));
-    //     categoryRepository.save(Category.create("구인 게시판", watcha));
-    //     categoryRepository.save(Category.create("게시판 추천 게시판", watcha));
-	//
-    //     Board wavve = Board.create("웨이브");
-    //     boardRepository.save(wavve);
-	//
-    //     categoryRepository.save(Category.create("자유 게시판", wavve));
-    //     categoryRepository.save(Category.create("구인 게시판", wavve));
-    //     categoryRepository.save(Category.create("게시판 추천 게시판", wavve));
-	//
-    //     Board spotify = Board.create("스포티파이");
-    //     boardRepository.save(spotify);
-	//
-    //     categoryRepository.save(Category.create("자유 게시판", spotify));
-    //     categoryRepository.save(Category.create("구인 게시판", spotify));
-    //     categoryRepository.save(Category.create("게시판 추천 게시판", spotify));
-	//
-    //     Board none = Board.create("none");
-    //     boardRepository.save(none);
-    //     categoryRepository.save(Category.create("OTT 추천 게시판", none));
-    // }
+    @PostConstruct
+    public void categoryInit() {
+
+        Board watcha = Board.create("왓챠");
+        boardRepository.save(watcha);
+
+        categoryRepository.save(Category.create("자유 게시판", watcha));
+        categoryRepository.save(Category.create("구인 게시판", watcha));
+        categoryRepository.save(Category.create("게시판 추천 게시판", watcha));
+
+        Board wavve = Board.create("웨이브");
+        boardRepository.save(wavve);
+
+        categoryRepository.save(Category.create("자유 게시판", wavve));
+        categoryRepository.save(Category.create("구인 게시판", wavve));
+        categoryRepository.save(Category.create("게시판 추천 게시판", wavve));
+
+        Board spotify = Board.create("스포티파이");
+        boardRepository.save(spotify);
+
+        categoryRepository.save(Category.create("자유 게시판", spotify));
+        categoryRepository.save(Category.create("구인 게시판", spotify));
+        categoryRepository.save(Category.create("게시판 추천 게시판", spotify));
+
+        Board none = Board.create("none");
+        boardRepository.save(none);
+        categoryRepository.save(Category.create("OTT 추천 게시판", none));
+
+        userService.join("test", "test!", "테스터",
+            "tester", "테스트 계정입니다", "test123@naver.com");
+    }
 }

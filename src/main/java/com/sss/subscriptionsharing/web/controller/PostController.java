@@ -47,12 +47,14 @@ public class PostController {
 		return postDtos;
 	}
 
-	@PostMapping("/create/post")
+	@PostMapping("/create")
 	public ResponseEntity createPost(@RequestBody Map<String, String> postForm,
 		@SessionAttribute(name = LOGIN_USER, required = false) User loginUser) {
 
 		log.info("게시글 작성 컨트롤러 호출");
 		log.info("loginUser={}", loginUser.getNickName());
+
+		log.info("dat={},{},{}", postForm.get("categoryId"), postForm.get("title"), postForm.get("content"));
 
 		postService.register(loginUser.getId(),
 			Long.parseLong(postForm.get("categoryId")),
@@ -97,8 +99,8 @@ public class PostController {
 		return ResponseEntity.ok().build();
 	}
 
-	@GetMapping("/detail/{postId}")
-	public PostWithCommentDto postDetail(@PathVariable Long postId) {
+	@GetMapping("/detail/{categoryId}/{postId}")
+	public PostWithCommentDto postDetail(@PathVariable Long categoryId, @PathVariable Long postId) {
 		log.info("게시글 상세조회 컨트롤러 호출");
 
 		Post post = postService.findById(postId).get();
