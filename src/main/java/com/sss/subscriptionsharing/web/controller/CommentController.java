@@ -30,8 +30,8 @@ public class CommentController {
 	@PostMapping("/create/comment")
 	public ResponseEntity createComment(@RequestBody Map<String, String> commentForm,
 		@SessionAttribute(name = LOGIN_USER, required = false) User loginUser) {
-
-		log.info("loginUser={}", loginUser.getId());
+		log.info("댓글 작성 컨트롤러 호출");
+		log.info("loginUser={}", loginUser.getNickName());
 
 		commentService.register(loginUser.getId(),
 			Long.parseLong(commentForm.get("postId")),

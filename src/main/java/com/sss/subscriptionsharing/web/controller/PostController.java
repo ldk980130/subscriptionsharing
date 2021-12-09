@@ -35,7 +35,7 @@ public class PostController {
 	@GetMapping("/home")
 	public List<PostDto> home() {
 
-		log.info("모든 게시글 전달");
+		log.info("홈 컨트롤러 호출");
 
 		List<Post> posts = postService.findAll();
 		List<PostDto> postDtos = new ArrayList<>();
@@ -47,17 +47,12 @@ public class PostController {
 		return postDtos;
 	}
 
-	// @GetMapping("/home")
-	// public String test() {
-	// 	log.info("테스트 호출");
-	// 	return "hello SSS!";
-	// }
-
 	@PostMapping("/create/post")
 	public ResponseEntity createPost(@RequestBody Map<String, String> postForm,
 		@SessionAttribute(name = LOGIN_USER, required = false) User loginUser) {
 
-		log.info("loginUser={}", loginUser.getId());
+		log.info("게시글 작성 컨트롤러 호출");
+		log.info("loginUser={}", loginUser.getNickName());
 
 		postService.register(loginUser.getId(),
 			Long.parseLong(postForm.get("categoryId")),
@@ -104,6 +99,7 @@ public class PostController {
 
 	@GetMapping("/detail/{postId}")
 	public PostWithCommentDto postDetail(@PathVariable Long postId) {
+		log.info("게시글 상세조회 컨트롤러 호출");
 
 		Post post = postService.findById(postId).get();
 

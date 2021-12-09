@@ -10,8 +10,10 @@ import com.sss.subscriptionsharing.service.UserService;
 import com.sss.subscriptionsharing.web.dto.UserDto;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
+@Slf4j
 @RequiredArgsConstructor
 public class UserController {
 
@@ -26,6 +28,8 @@ public class UserController {
 			userDto.getNickName(),
 			userDto.getIntroduce(),
 			userDto.getEmail());
+
+		log.info("회원가입 완료");
 
 		return ResponseEntity.ok().build();
 	}

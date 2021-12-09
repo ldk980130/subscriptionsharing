@@ -36,6 +36,7 @@ public class LoginController {
 		Optional<User> loginUser = loginService.login(loginForm.get("loginId"), loginForm.get("password"));
 
 		if (loginUser.isEmpty()) {
+			log.info("로그인 실패");
 			return ResponseEntity.badRequest().build();
 		}
 
@@ -49,6 +50,7 @@ public class LoginController {
 
 	@PostMapping("/logout")
 	public ResponseEntity logout(HttpServletRequest request) {
+		log.info("로그아웃 컨트롤러 호출");
 		HttpSession session = request.getSession();
 
 		if (session != null) {
