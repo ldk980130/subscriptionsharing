@@ -154,4 +154,38 @@ public class PostServiceTest {
         Optional<Comment> findComment = commentService.findById(commentId);
         assertThat(findComment).isEmpty();
     }
+
+    @Test
+    public void findMyPost() throws Exception {
+        //given
+        Board board = boardRepository.save(Board.create("왓챠"));
+        Category category = categoryRepository.save(Category.create("친목", board));
+        User user = userService.join("ldk", "1234", "이동규",
+            "dk", "안녕", "ldk980130@gmail.com");
+        Long postId = postService.register(user.getId(), category.getId(), "제목", "내용").getId();
+
+        //when
+        Optional<Post> post = postService.findById(postId);
+
+        //then
+        assertThat(post.get().getUser()).isEqualTo(user);
+    }
+
+    @Test
+    public void findOtherPost() throws Exception {
+        //given
+        Board board = boardRepository.save(Board.create("왓챠"));
+        Category category = categoryRepository.save(Category.create("친목", board));
+        User user1 = userService.join("ldk", "1234", "이동규",
+            "dk", "안녕", "ldk980130@gmail.com");
+        Long postId = postService.register(user1.getId(), category.getId(), "제목", "내용").getId();
+         userService.join("asd", "1234", "김철수",
+            "ch", "안녕", "chulsoo@gmail.com");
+
+        //when
+        Optional<Post> findPost = postService.findById(postId);
+
+        //then
+        assertThat(findPost.get().getTitle()).isEqualTo("제목");
+    }
 }
